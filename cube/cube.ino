@@ -53,7 +53,7 @@ void ShowDataXTimes(byte times) {
 }
 
 void Mode_1() {
-    byte positionToMove = random(levelSize + 1);
+    byte positionToMove = random(levelSize);
     byte fromLevel = data[positionToMove] == 1 ? 0 : 7;
     bool top = fromLevel == 0;
     ShowDataXTimes(5);
@@ -71,7 +71,7 @@ void Mode_0() {
   for (int i = 0; i < levelsCount * levelSize ; i++) {
       data[i] = 1;
       if (i != 0) data[i - 1] = 0;
-      else data[511] = 0;
+      else data[levelsCount * levelSize - 1] = 0;
       ShowDataXTimes(25);
   }
 }
