@@ -1,13 +1,28 @@
-const byte DS = 10;
+#include <SoftwareSerial.h>
+
+const byte DS = 12;
 const byte ST_CP = 8; //latch
 const byte SH_CP = 9; //CLK
 
-const byte levels[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+const byte levels[] = {0, 1, 2, 3, 4, 5, 6, 7};
 const byte levelsCount = 8;
 const byte levelSize = 64;
 const int timeForMode = 5;
 
 byte data[512];
+
+byte x = 4;
+byte y = 4;
+byte z = 4;
+
+SoftwareSerial BT(10, 11);
+
+enum DERECTION : byte {
+	UP=0,
+	DOWN=120,
+	LEFT=248,
+	RIGHT=128,
+};
 
 int currentMode = 0;
 
@@ -107,27 +122,74 @@ void Mode_2() {
 }
 
 void setup() {
-	pinMode(DS, OUTPUT);
+	/*pinMode(DS, OUTPUT);
 	pinMode(ST_CP, OUTPUT);
 	pinMode(SH_CP, OUTPUT);
-
 	for (byte i = 0; i < levelsCount; i++) {
 		pinMode(levels[i], OUTPUT);
 	}
 	ClearAllData();
+	data[x + y * levelsCount + z * levelSize] = 1;*/
+	//pinMode(12, OUTPUT);
+	//pinMode(13, OUTPUT);
+	//digitalWrite(12, HIGH);
+	Serial.begin(9600);
+	//delay(2000);
+	//digitalWrite(13, HIGH);
+	//digitalWrite(12, LOW);
+	//delay(2000);
+	
+	BT.begin(38400);
+	//bluetooth.begin(9600);
+	
 }
 
 void loop() {
-	if (++currentMode < timeForMode * 10) {
-		if (currentMode == 1) {
-			ClearAllData();
-			Mode_1_Init();
-		}
-		Mode_1(); //need init in setup !!!
-	}
-	else {
-		if (currentMode == timeForMode * 11) currentMode = 0;
-		Mode_2();
-	}
+	//if (++currentMode < timeForMode * 10) {
+	//	if (currentMode == 1) {
+	//		ClearAllData();
+	//		Mode_1_Init();
+	//	}
+	//	Mode_1(); //need init in setup !!!
+	//}
+	//else {
+	//	if (currentMode == timeForMode * 11) currentMode = 0;
+	//	Mode_2();
+	//}
+
+	//if (bluetooth.available() > 0) {
+	//	data[bluetooth.read()] = 1;
+	//	ShowDataXTimes(10);
+	//}
+	//Serial1.println("Hey");
 	//Mode_0(); // for checking each LED  
+
+	if (BT.available()) {
+		byte key = BT.read();
+		/*while (!BT.available());
+		BT.read();
+		while (!BT.available());
+		BT.read();
+		switch(key) {
+		case DOWN: z--;
+			break;
+		case UP: z++;
+			break;
+		case RIGHT: x++;
+			break;
+		case LEFT: x--;
+		}
+		data[x + y * levelsCount + z * levelSize] = 1;*/
+		Serial.println(key);
+	}
+
+	//ShowDataXTimes(1);
+
+	// READ Arduino Serial Monitor and WRITE to HC-05
+	//if (Serial.available()) {
+	//	byte key = BT.read();
+	//	BT.read();
+	//	BT.read();
+	//	BT.println(key);
+	//}
 }
