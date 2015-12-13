@@ -5,11 +5,11 @@ Cube::Cube()
 	this->DS = 12;
 	this->ST_CP = 8; //latch
 	this->SH_CP = 9; //CLK
-	this->levelsCount = 8;
-	this->levelSize = 64;
+	this->levelsCount = SIZE;
+	this->levelSize = levelsCount * SIZE;
 	this->levels = new byte[levelsCount]{ 0, 1, 2, 3, 4, 5, 6, 7 };
 	this->data = new byte[levelsCount * levelSize];
-	ClearAllData();
+	Clear();
 }
 
 void Cube::Init() {
@@ -21,7 +21,7 @@ void Cube::Init() {
 	}
 }
 
-void Cube::ClearAllData() {
+void Cube::Clear() {
 	for (int i = 0; i < levelsCount * levelSize; i++) {
 		data[i] = 0;
 	}
@@ -30,7 +30,7 @@ void Cube::ClearAllData() {
 void Cube::ShowDataXTimes(unsigned int times) {
 	for (unsigned int _ = 0; _ < times; _++) {
 		for (byte level = 0; level < levelsCount; level++) {
-			for (int i = 0; i< levelSize; i++) {
+			for (int i = 0; i < levelSize; i++) {
 				WriteDS(data[i + level * levelSize]);
 			}
 

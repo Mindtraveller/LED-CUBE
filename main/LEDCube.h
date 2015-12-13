@@ -2,6 +2,8 @@
 #include "Arduino.h"
 #include "Point.h"
 
+#define SIZE 8
+
 class Cube
 {
 	byte *data;
@@ -17,7 +19,7 @@ class Cube
 public:
 	Cube();
 	void Init();
-	void ClearAllData();
+	void Clear();
 	void ShowDataXTimes(unsigned int times);
 	void TurnLEDOn(Point &point);
 	void TurnLEDOff(Point &point);
