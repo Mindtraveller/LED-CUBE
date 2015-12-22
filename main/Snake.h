@@ -38,12 +38,12 @@ class Snake
 	void MakeStep();
 	bool GoalIsPart();
 	bool isClash();
-	void Init();
 
 public:
 	Snake(Cube *cube);
 	void ChangeDirection(KEY key);
 	void Move();
+	void Init();
 	size_t GetSize();
 };
 

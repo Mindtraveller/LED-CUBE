@@ -7,6 +7,7 @@ Snake::Snake(Cube *cube)
 }
 
 void Snake::Init() {
+	this->cube->Clear();
 	this->parts.clear();
 	this->parts.push_back(Point(3, 3, 3));
 	this->parts.push_back(Point(3, 2, 3));
@@ -26,7 +27,7 @@ void Snake::ApplyUp() {
 		break;
 	case Z:
 		direction = X;
-		directionType = NORMAL;
+		directionType = INVERSE;
 	}
 }
 
@@ -39,7 +40,7 @@ void Snake::ApplyDown() {
 		break;
 	case Z:
 		direction = X;
-		directionType = INVERSE;
+		directionType = NORMAL;
 	}
 }
 
@@ -47,12 +48,13 @@ void Snake::ApplyLeft() {
 	switch (direction) {
 	case X:
 		direction = Y;
-		directionType = directionType;
+		directionType = directionType == NORMAL ? INVERSE : NORMAL;
 		break;
 	case Y:
 		direction = X;
-		directionType = directionType == NORMAL ? INVERSE : NORMAL;
+		directionType = directionType;
 		break;
+	
 	case Z:
 		direction = Y;
 		directionType = NORMAL;
@@ -63,11 +65,11 @@ void Snake::ApplyRight() {
 	switch (direction) {
 	case X:
 		direction = Y;
-		directionType = directionType == NORMAL ? INVERSE : NORMAL;
+		directionType = directionType;
 		break;
 	case Y:
 		direction = X;
-		directionType = directionType;
+		directionType = directionType == NORMAL ? INVERSE : NORMAL;
 		break;
 	case Z:
 		direction = Y;
@@ -96,9 +98,9 @@ bool Snake::hasReachedGoal() {
 
 void Snake::GenerateGoal() {
 	do {
-		byte x = random(SIZE);
-		byte y = random(SIZE);
-		byte z = random(SIZE);
+		byte x = random(CUBE_EDGE_SIZE);
+		byte y = random(CUBE_EDGE_SIZE);
+		byte z = random(CUBE_EDGE_SIZE);
 		this->goal = Point(x, y, z);
 	} while (GoalIsPart());
 	cube->TurnLEDOn(this->goal);
@@ -159,6 +161,7 @@ void Snake::Move() {
 	cube->TurnLEDOff(*last);	
 	MoveParts();
 	MakeStep();
+	cube->ShowDataXTimes(1);
 	if (hasReachedGoal()) {
 		Point *preLast = parts[parts.size() - 2];
 		parts.push_back(Point(last->x + last->x - preLast->x,
@@ -170,6 +173,7 @@ void Snake::Move() {
 		cube->Clear();
 		Init();		
 	}
+	cube->ShowDataXTimes(1);
 	MapPartsToCube();	
 }
 

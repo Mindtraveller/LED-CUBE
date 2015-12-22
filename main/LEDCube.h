@@ -2,11 +2,11 @@
 #include "Arduino.h"
 #include "Point.h"
 
-#define SIZE 8
+#define CUBE_EDGE_SIZE 8
+#define CUBE_LEVEL_SIZE CUBE_EDGE_SIZE * CUBE_EDGE_SIZE
 
 class Cube
 {
-	byte *data;
 	byte DS;
 	byte ST_CP; //latch
 	byte SH_CP; //CLK
@@ -17,6 +17,8 @@ class Cube
 	void Pulse(byte pin);
 	void WriteDS(byte _byte);
 public:
+	byte *data;
+
 	Cube();
 	void Init();
 	void Clear();

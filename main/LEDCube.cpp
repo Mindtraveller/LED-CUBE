@@ -5,8 +5,8 @@ Cube::Cube()
 	this->DS = 12;
 	this->ST_CP = 8; //latch
 	this->SH_CP = 9; //CLK
-	this->levelsCount = SIZE;
-	this->levelSize = levelsCount * SIZE;
+	this->levelsCount = CUBE_EDGE_SIZE;
+	this->levelSize = levelsCount * CUBE_EDGE_SIZE;
 	this->levels = new byte[levelsCount]{ 0, 1, 2, 3, 4, 5, 6, 7 };
 	this->data = new byte[levelsCount * levelSize];
 	Clear();
